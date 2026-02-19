@@ -1,0 +1,8 @@
+---
+- name: Test Cisco config drift role
+  hosts: cisco_ios
+  gather_facts: false
+  connection: ansible.netcommon.network_cli
+
+  roles:
+    - role: cisco_config_drift

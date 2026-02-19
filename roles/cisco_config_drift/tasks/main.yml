@@ -1,0 +1,22 @@
+---
+- name: Load golden config for this device
+  ansible.builtin.set_fact:
+    cisco_drift_golden_config: "{{ lookup('ansible.builtin.file', cisco_drift_golden_file) }}"
+
+- name: Diff running config against golden config (do not apply)
+  cisco.ios.ios_config:
+    diff_against: intended
+    intended_config: "{{ cisco_drift_golden_config }}"
+    match: line
+    replace: line
+  register: cisco_drift_check
+
+- name: Drift detected (run with --diff to see details)
+  ansible.builtin.debug:
+    msg: "Config drift detected on {{ inventory_hostname }}."
+  when: cisco_drift_notify_on_drift and cisco_drift_check.changed
+
+- name: Fail if drift is detected
+  ansible.builtin.fail:
+    msg: "CONFIG DRIFT DETECTED on {{ inventory_hostname }}. Run with --diff to see details."
+  when: cisco_drift_fail_on_drift and cisco_drift_check.changed

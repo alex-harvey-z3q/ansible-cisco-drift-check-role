@@ -1,0 +1,11 @@
+all:
+  children:
+    cisco_ios:
+      hosts:
+        sandbox:
+          ansible_host: "{{ lookup('ansible.builtin.env', 'CISCO_HOST') }}"
+      vars:
+        ansible_user: "{{ lookup('ansible.builtin.env', 'CISCO_USER') }}"
+        ansible_password: "{{ lookup('ansible.builtin.env', 'CISCO_PASS') }}"
+        ansible_network_os: cisco.ios.ios
+        ansible_connection: ansible.netcommon.network_cli

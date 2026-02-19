@@ -1,0 +1,5 @@
+---
+cisco_drift_golden_dir: "goldens"
+cisco_drift_golden_file: "{{ cisco_drift_golden_dir }}/{{ inventory_hostname }}.cfg"
+cisco_drift_fail_on_drift: true
+cisco_drift_notify_on_drift: true
